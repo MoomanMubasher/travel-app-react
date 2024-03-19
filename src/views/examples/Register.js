@@ -1,21 +1,7 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.2.4
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2024 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-
+ 
+import React,{useState,useRef} from "react";
+import { Toast } from 'primereact/toast';
+import axios from 'axios';
 // reactstrap components
 import {
   Button,
@@ -28,61 +14,56 @@ import {
   InputGroupAddon,
   InputGroupText,
   InputGroup,
-  Row,
   Col,
 } from "reactstrap";
 
-const Register = () => {
+const Register = (props) => {
+  const toast = useRef(null);
+  const [formValues, setFormValues] = useState({
+    name : '',
+    password:'',
+    email:''
+  })
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+   console.log(formValues)
+    // Validation check
+    if (formValues.email === '' || formValues.password === '' || formValues.name === '') {
+      toast.current.show({severity:'info', summary: 'Info', detail:'Please fill out all the values', life: 3000});
+      return;
+    }
+
+    try {
+      // Make a POST request using Axios
+      const response = await axios.post(`http://localhost:8000/api/register`, {
+        name: formValues.name,
+        email:formValues.email,
+        password:formValues.password,
+      });
+
+      toast.current.show({severity:'success', summary: 'Success', detail:'Success Regsitered', life: 3000});
+      console.log('User registered:', response.data.data);
+      props.history.push('login')
+    } catch (error) {
+      toast.current.show({severity:'error', summary: 'Error!', detail:error.response.data.data, life: 3000});
+      console.error('Error registering user:', error.response.data.data);
+    }
+  }
+
   return (
     <>
+      <Toast ref={toast} />
       <Col lg="6" md="8">
         <Card className="bg-secondary shadow border-0">
           <CardHeader className="bg-transparent pb-5">
             <div className="text-muted text-center mt-2 mb-4">
-              <small>Sign up with</small>
-            </div>
-            <div className="text-center">
-              <Button
-                className="btn-neutral btn-icon mr-4"
-                color="default"
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}
-              >
-                <span className="btn-inner--icon">
-                  <img
-                    alt="..."
-                    src={
-                      require("../../assets/img/icons/common/github.svg")
-                        .default
-                    }
-                  />
-                </span>
-                <span className="btn-inner--text">Github</span>
-              </Button>
-              <Button
-                className="btn-neutral btn-icon"
-                color="default"
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}
-              >
-                <span className="btn-inner--icon">
-                  <img
-                    alt="..."
-                    src={
-                      require("../../assets/img/icons/common/google.svg")
-                        .default
-                    }
-                  />
-                </span>
-                <span className="btn-inner--text">Google</span>
-              </Button>
+              <h1>Sign up</h1>
             </div>
           </CardHeader>
           <CardBody className="px-lg-5 py-lg-5">
-            <div className="text-center text-muted mb-4">
-              <small>Or sign up with credentials</small>
-            </div>
-            <Form role="form">
+            <Form role="form" onSubmit={handleSubmit}>
               <FormGroup>
                 <InputGroup className="input-group-alternative mb-3">
                   <InputGroupAddon addonType="prepend">
@@ -90,7 +71,7 @@ const Register = () => {
                       <i className="ni ni-hat-3" />
                     </InputGroupText>
                   </InputGroupAddon>
-                  <Input placeholder="Name" type="text" />
+                  <Input placeholder="Name" type="text" name="name" value={formValues.name} required onChange={(e) => setFormValues({ ...formValues, name: e.target.value})} />
                 </InputGroup>
               </FormGroup>
               <FormGroup>
@@ -103,7 +84,11 @@ const Register = () => {
                   <Input
                     placeholder="Email"
                     type="email"
+                    name="email"
                     autoComplete="new-email"
+                    required
+                    value={formValues.email}
+                    onChange={(e) => setFormValues({ ...formValues, email: e.target.value})} 
                   />
                 </InputGroup>
               </FormGroup>
@@ -118,45 +103,33 @@ const Register = () => {
                     placeholder="Password"
                     type="password"
                     autoComplete="new-password"
+                    name="password"
+                    required
+                    value={formValues.password}
+                    onChange={(e) => setFormValues({ ...formValues, password: e.target.value})} 
                   />
                 </InputGroup>
               </FormGroup>
-              <div className="text-muted font-italic">
-                <small>
-                  password strength:{" "}
-                  <span className="text-success font-weight-700">strong</span>
-                </small>
-              </div>
-              <Row className="my-4">
-                <Col xs="12">
-                  <div className="custom-control custom-control-alternative custom-checkbox">
-                    <input
-                      className="custom-control-input"
-                      id="customCheckRegister"
-                      type="checkbox"
-                    />
-                    <label
-                      className="custom-control-label"
-                      htmlFor="customCheckRegister"
-                    >
-                      <span className="text-muted">
-                        I agree with the{" "}
-                        <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                          Privacy Policy
-                        </a>
-                      </span>
-                    </label>
-                  </div>
-                </Col>
-              </Row>
+              
               <div className="text-center">
-                <Button className="mt-4" color="primary" type="button">
+                <Button className="mt-4" color="primary" type="submit">
                   Create account
                 </Button>
               </div>
+         
             </Form>
+          
           </CardBody>
+         
         </Card>
+        <Col className="text-right" xs="12">
+            <a
+              className="text-light"
+              href="login"
+            >
+              <small>Already have an account?</small>
+            </a>
+          </Col>
       </Col>
     </>
   );
