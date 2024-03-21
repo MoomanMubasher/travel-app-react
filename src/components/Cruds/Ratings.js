@@ -31,6 +31,7 @@ export default function Ratings(props) {
     const [globalFilter, setGlobalFilter] = useState(null);
 
     const [productDialog, setProductDialog] = useState(false);
+    const user = JSON.parse(localStorage.getItem('user'));
 
 
     const toast = useRef(null);
@@ -41,7 +42,12 @@ export default function Ratings(props) {
     useEffect(() => {
         const fetchLandmarks = async () => {
                   try {
-                    const response = await axios.get(`http://localhost:8000/api/landmarks/${id}`);
+                    const config = {
+                        headers: {
+                          Authorization: `Bearer ${user?.token}`
+                        }
+                      };
+                    const response = await axios.get(`http://localhost:8000/api/landmarks/${id}`,config);
                     console.log(response,'response')
                     setProducts(response.data.ratings);
                   } catch (error) {
@@ -97,7 +103,12 @@ export default function Ratings(props) {
     const deleteProduct = async(data) => {
         let _products = products.filter((val) => val._id !== product._id);
         try {
-            const response = await axios.delete(`http://localhost:8000/api/landmarks/${id}/ratings/${product._id}`);
+            const config = {
+                headers: {
+                  Authorization: `Bearer ${user?.token}`
+                }
+              };
+            const response = await axios.delete(`http://localhost:8000/api/landmarks/${id}/ratings/${product._id}`,config);
             console.log(response,'response')
             setProducts(_products);
             setDeleteProductDialog(false);
@@ -170,10 +181,15 @@ export default function Ratings(props) {
             }
 
             try {
+                const config = {
+                    headers: {
+                      Authorization: `Bearer ${user?.token}`
+                    }
+                  };
                 await axios.put(`http://localhost:8000/api/landmarks/${id}/ratings/${_product?._id}`, {
                   ratingId: _product?._id,
                   rating: product?.rating
-                });
+                },config);
                 // Optionally, you can handle success by displaying a message or updating state
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Rating Updated', life: 3000 });
               } catch (error) {

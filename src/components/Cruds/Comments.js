@@ -30,6 +30,7 @@ export default function Comments(props) {
     const [globalFilter, setGlobalFilter] = useState(null);
 
     const [productDialog, setProductDialog] = useState(false);
+    const user = JSON.parse(localStorage.getItem('user'));
 
 
     const toast = useRef(null);
@@ -40,7 +41,12 @@ export default function Comments(props) {
     useEffect(() => {
         const fetchLandmarks = async () => {
                   try {
-                    const response = await axios.get(`http://localhost:8000/api/landmarks/${id}`);
+                    const config = {
+                        headers: {
+                          Authorization: `Bearer ${user?.token}`
+                        }
+                      };
+                    const response = await axios.get(`http://localhost:8000/api/landmarks/${id}`,config);
                     console.log(response,'response')
                     setProducts(response.data.comments);
                   } catch (error) {
@@ -96,7 +102,12 @@ export default function Comments(props) {
     const deleteProduct = async(data) => {
         let _products = products.filter((val) => val._id !== product._id);
         try {
-            const response = await axios.delete(`http://localhost:8000/api/landmarks/${id}/comments/${product._id}`);
+            const config = {
+                headers: {
+                  Authorization: `Bearer ${user?.token}`
+                }
+              };
+            const response = await axios.delete(`http://localhost:8000/api/landmarks/${id}/comments/${product._id}`,config);
             console.log(response,'response')
             setProducts(_products);
             setDeleteProductDialog(false);
@@ -160,10 +171,15 @@ export default function Comments(props) {
             }
 
             try {
+                const config = {
+                    headers: {
+                      Authorization: `Bearer ${user?.token}`
+                    }
+                  };
                 await axios.put(`http://localhost:8000/api/landmarks/${id}/comments/${_product?._id}`, {
                   commentId: _product?._id,
                   comment: product?.comment
-                });
+                },config);
                 // Optionally, you can handle success by displaying a message or updating state
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Comment Updated', life: 3000 });
               } catch (error) {

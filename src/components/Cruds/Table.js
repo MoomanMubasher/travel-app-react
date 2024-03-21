@@ -31,18 +31,28 @@ export default function Table(props) {
     const dt = useRef(null);
     const navigate = useNavigate()
 
+    const user = JSON.parse(localStorage.getItem('user'));
+    
     useEffect(() => {
         const fetchLandmarks = async () => {
-                  try {
-                    const response = await axios.get('http://localhost:8000/api/landmarks');
-                    console.log(response,'response')
-                    setProducts(response.data);
-                  } catch (error) {
-                    console.error('Error fetching landmarks:', error);
-                  }
-                };
-                fetchLandmarks();
-    }, []);
+          try {
+            const config = {
+              headers: {
+                Authorization: `Bearer ${user?.token}`
+              }
+            };
+    
+            // Make the API request with the token
+            const response = await axios.get('http://localhost:8000/api/landmarks', config);
+            console.log(response.data, 'response');
+            setProducts(response.data);
+          } catch (error) {
+            console.error('Error fetching landmarks:', error);
+          }
+        };
+    
+        fetchLandmarks();
+      }, []);
 
 
     const hideDeleteProductDialog = () => {
@@ -61,7 +71,12 @@ export default function Table(props) {
     const deleteProduct = async(data) => {
         let _products = products.filter((val) => val._id !== product._id);
         try {
-            const response = await axios.delete(`http://localhost:8000/api/landmarks/${product?._id}`);
+            const config = {
+                headers: {
+                  Authorization: `Bearer ${user?.token}`
+                }
+              };
+            const response = await axios.delete(`http://localhost:8000/api/landmarks/${product?._id}`, config);
             console.log(response,'response')
             setProducts(_products);
             setDeleteProductDialog(false);

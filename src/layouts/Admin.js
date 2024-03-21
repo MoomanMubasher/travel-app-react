@@ -59,7 +59,7 @@ const Admin = (props) => {
         <Routes>
           {getRoutes(routes)}
           <Route path="/admin/landmarks/:id/comments" element={<Comments />} />
-          <Route path="*" element={<Navigate to="/admin/index" replace />} />
+          <Route path="*" element={<Navigate to="/admin/landmarks" replace />} />
         </Routes>
         <Container fluid>
           <AdminFooter />
