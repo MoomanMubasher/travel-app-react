@@ -22,7 +22,7 @@ import {
 
 
 
-const Login = (props) => {
+const Login = () => {
   
   const navigate =  useNavigate()
 
@@ -46,7 +46,7 @@ const Login = (props) => {
      }
      try {
        // Make a POST request using Axios
-       const response = await axios.post(`http://localhost:8080/api/login`, {
+       const response = await axios.post(`http://localhost:8080/api/admin-login`, {
          email:formValues.email,
          password:formValues.password,
        });
@@ -121,14 +121,14 @@ const Login = (props) => {
           </CardBody>
         </Card>
         <Row className="mt-3">
-          <Col className="text-right" xs="12">
+          {/* <Col className="text-right" xs="12">
             <a
               className="text-light"
               href="register"
             >
               <small>Create new account</small>
             </a>
-          </Col>
+          </Col> */}
         </Row>
       </Col>
     </>
