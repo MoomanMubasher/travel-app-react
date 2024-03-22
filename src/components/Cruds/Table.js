@@ -43,7 +43,7 @@ export default function Table(props) {
             };
     
             // Make the API request with the token
-            const response = await axios.get('http://localhost:8000/api/landmarks', config);
+            const response = await axios.get('http://localhost:8080/api/landmarks', config);
             console.log(response.data, 'response');
             setProducts(response.data);
           } catch (error) {
@@ -52,7 +52,7 @@ export default function Table(props) {
         };
     
         fetchLandmarks();
-      }, []);
+      }, [user.token]);
 
 
     const hideDeleteProductDialog = () => {
@@ -76,7 +76,7 @@ export default function Table(props) {
                   Authorization: `Bearer ${user?.token}`
                 }
               };
-            const response = await axios.delete(`http://localhost:8000/api/landmarks/${product?._id}`, config);
+            const response = await axios.delete(`http://localhost:8080/api/landmarks/${product?._id}`, config);
             console.log(response,'response')
             setProducts(_products);
             setDeleteProductDialog(false);

@@ -55,7 +55,7 @@ function AddLandmark() {
       formDataToSend.append('ratings', JSON.stringify([{user:'65f5e8ddf70eb5dcfbd6172a',rating:formData.ratings}]));
       formDataToSend.append('comments', JSON.stringify([{user:'65f5e8ddf70eb5dcfbd6172a',comment:formData.comments}]));
 
-    const response = await axios.post('http://localhost:8000/api/landmarks',formDataToSend,{
+    const response = await axios.post('http://localhost:8080/api/landmarks',formDataToSend,{
         headers: {
           "Content-Type": "multipart/form-data",
           "x-rapidapi-host": "file-upload8.p.rapidapi.com",
@@ -119,15 +119,23 @@ export default AddLandmark;
 
 // const LandmarksByLocation = ({ latitude, longitude }) => {
 //   const [landmarks, setLandmarks] = useState([]);
+//   const user = JSON.parse(localStorage.getItem('user'));
 
 //   useEffect(() => {
+//     const config = {
+//       headers: {
+//         Authorization: `Bearer ${user?.token}`
+//       }
+//     };
+
 //     const fetchLandmarks = async () => {
 //       try {
-//         const response = await axios.get('http://localhost:8000/api/landmarks', {
+//         const response = await axios.get('http://localhost:8080/api/landmarks', {
 //           params: {
 //             latitude,
 //             longitude
-//           }
+//           }, 
+//           headers: config.headers 
 //         });
 //         setLandmarks(response.data);
 //       } catch (error) {
@@ -174,7 +182,7 @@ export default AddLandmark;
 //   const handleSubmit = async (event) => {
 //     event.preventDefault();
 //     try {
-//       await axios.post(`http://localhost:8000/api/landmarks/${landmarkId}/comments`, {
+//       await axios.post(`http://localhost:8080/api/landmarks/${landmarkId}/comments`, {
 //         user: userId,
 //         comment: comment
 //       });
@@ -227,7 +235,7 @@ export default AddLandmark;
 //   const handleSubmit = async (event) => {
 //     event.preventDefault();
 //     try {
-//       await axios.post(`http://localhost:8000/api/landmarks/${landmarkId}/ratings`, {
+//       await axios.post(`http://localhost:8080/api/landmarks/${landmarkId}/ratings`, {
 //         user: userId,
 //         rating: rating
 //       });

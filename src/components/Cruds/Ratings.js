@@ -47,7 +47,7 @@ export default function Ratings(props) {
                           Authorization: `Bearer ${user?.token}`
                         }
                       };
-                    const response = await axios.get(`http://localhost:8000/api/landmarks/${id}`,config);
+                    const response = await axios.get(`http://localhost:8080/api/landmarks/${id}`,config);
                     console.log(response,'response')
                     setProducts(response.data.ratings);
                   } catch (error) {
@@ -55,7 +55,7 @@ export default function Ratings(props) {
                   }
                 };
                 fetchLandmarks();
-    }, [id]);
+    }, [user.token,id]);
 
 
     const hideDeleteProductDialog = () => {
@@ -108,7 +108,7 @@ export default function Ratings(props) {
                   Authorization: `Bearer ${user?.token}`
                 }
               };
-            const response = await axios.delete(`http://localhost:8000/api/landmarks/${id}/ratings/${product._id}`,config);
+            const response = await axios.delete(`http://localhost:8080/api/landmarks/${id}/ratings/${product._id}`,config);
             console.log(response,'response')
             setProducts(_products);
             setDeleteProductDialog(false);
@@ -186,7 +186,7 @@ export default function Ratings(props) {
                       Authorization: `Bearer ${user?.token}`
                     }
                   };
-                await axios.put(`http://localhost:8000/api/landmarks/${id}/ratings/${_product?._id}`, {
+                await axios.put(`http://localhost:8080/api/landmarks/${id}/ratings/${_product?._id}`, {
                   ratingId: _product?._id,
                   rating: product?.rating
                 },config);

@@ -37,7 +37,7 @@ const Register = (props) => {
 
     try {
       // Make a POST request using Axios
-      const response = await axios.post(`http://localhost:8000/api/register`, {
+      const response = await axios.post(`http://localhost:8080/api/register`, {
         name: formValues.name,
         email:formValues.email,
         password:formValues.password,

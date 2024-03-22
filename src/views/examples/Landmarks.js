@@ -3,7 +3,7 @@ import Header from 'components/Headers/Header'
 import Table from 'components/Cruds/Table'
 // import { DataTable } from 'primereact/datatable';
 // import { Column } from 'primereact/column';
-import Test from './Test';
+// import Test from './Test';
 
 const Landmarks = () => {
 
