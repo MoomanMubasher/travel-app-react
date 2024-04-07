@@ -6,6 +6,7 @@ import Login from "views/examples/Login.js";
 import Landmarks from "views/examples/Landmarks";
 import Comments from "components/Cruds/Comments";
 import Ratings from "components/Cruds/Ratings";
+import UsersList from "views/examples/UsersList";
 // import Icons from "views/examples/Icons.js";
 
 var routes = [
@@ -15,6 +16,13 @@ var routes = [
     name: "Landmarks",
     icon: "ni ni-building text-yellow",
     component: <Landmarks />,
+    layout: "/admin",
+  },
+  {
+    path: "/users",
+    name: "Users",
+    icon: "fa fa-users text-yellow",
+    component: <UsersList />,
     layout: "/admin",
   },
  

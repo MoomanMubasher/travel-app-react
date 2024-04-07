@@ -106,10 +106,10 @@ const Sidebar = (props) => {
           <NavbarBrand className="pt-0" {...navbarBrandProps}>
             <img
               alt={logo.imgAlt}
-              className="navbar-brand-img"
-              width='100%'
-              // height='50%'
-              src={require("../../assets/img/brand/travel-background.png")}
+              className="navbar-brand-img rounded"
+              width='130px'
+              height='50px'
+              src={require("../../assets/img/brand/login.jpg")}
             />
           </NavbarBrand>
         ) : null}

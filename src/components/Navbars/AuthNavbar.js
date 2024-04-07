@@ -19,9 +19,10 @@ const AdminNavbar = () => {
           <NavbarBrand to="/" tag={Link}>
             <img
               alt="..."
-              src={require("../../assets/img/brand/travel-background.png")}
-              width={150}
-              height={150}
+              src={require("../../assets/img/brand/login.jpg")}
+              width='130px'
+              height='50px'
+              className="rounded img img-fluid"
             />
           </NavbarBrand>
           <button className="navbar-toggler" id="navbar-collapse-main">
