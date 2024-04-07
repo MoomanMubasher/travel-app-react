@@ -107,8 +107,8 @@ export default function Users(props) {
     const actionBodyTemplate = (rowData) => {
         return (
             <React.Fragment>
-                <Button icon="pi pi-star" rounded outlined className="mr-2" onClick={() => handleRating(rowData)} />
-                <Button icon="pi pi-pencil" rounded outlined className="mr-2" onClick={() => handleComments(rowData)} />
+                {/* <Button icon="pi pi-star" rounded outlined className="mr-2" onClick={() => handleRating(rowData)} /> */}
+                {/* <Button icon="pi pi-pencil" rounded outlined className="mr-2" onClick={() => handleComments(rowData)} /> */}
                 <Button icon="pi pi-trash" rounded outlined severity="danger" onClick={() => confirmDeleteProduct(rowData)} />
             </React.Fragment>
         );
